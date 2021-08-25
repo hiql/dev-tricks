@@ -23,6 +23,7 @@ history -c
 rm -rf ~/.viminfo
 rm -rf ~/.zsh_history
 rm -rf ~/.bash_history
+rm -rf ~/.python_history
 
 echo "Done!"
 
