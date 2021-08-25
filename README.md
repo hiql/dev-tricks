@@ -3,7 +3,7 @@ Some stuff from my daily development(such as dotfiles,scripts,snippets, articles
 
 ## My Development Environment
 
-I have been using VS Code for a fews years, 
+I have been using VS Code for a few years, 
 but now I want to experience using neovim as my first choice IDE,
 I hope I can stick to it.
 
@@ -12,7 +12,7 @@ I hope I can stick to it.
 ![neovim_ide](screenshots/neovim_ide.jpg)
 
 - Neovim >= 0.5.0
-- Tmux >= 3.2
+- Tmux >= 3.2a
 - iTerm2
 - Theme: [tokyonight.nvim](https://github.com/folke/tokyonight.nvim)
 - Font: [Nerd Font](https://www.nerdfonts.com)
@@ -20,16 +20,24 @@ I hope I can stick to it.
 Neovim plugins:
 - [Packer](https://github.com/wbthomason/packer.nvim)
 - [TreeSitter](https://github.com/nvim-treesitter/nvim-treesitter)
-- [LSP Diagnostics](https://neovim.io/doc/user/lsp.html)
+- [LSP(built-in)](https://neovim.io/doc/user/lsp.html)
+- [LspConfig](https://github.com/neovim/nvim-lspconfig)
 - [Telescope](https://github.com/nvim-telescope/telescope.nvim)
 - [NvimTree](https://github.com/kyazdani42/nvim-tree.lua)
-- [Nvim Compe](https://github.com/hrsh7th/nvim-compe)
-- [Nvim Dap](https://github.com/mfussenegger/nvim-dap)
-- [Git Signs](https://github.com/lewis6991/gitsigns.nvim)
+- [NvimCompe](https://github.com/hrsh7th/nvim-compe)
+- [NvimDap](https://github.com/mfussenegger/nvim-dap)
+- [GitSigns](https://github.com/lewis6991/gitsigns.nvim)
 - [WhichKey](https://github.com/liuchengxu/vim-which-key)
 - [Neogit](https://github.com/TimUntersberger/neogit)
 - [Neoterm](https://github.com/kassio/neoterm)
 - [Lualine](https://github.com/hoob3rt/lualine.nvim)
+- [Vimwiki](https://github.com/vimwiki/vimwiki)
+- [Neoformat](https://github.com/sbdchd/neoformat)
+- [Autopairs](https://github.com/windwp/nvim-autopairs)
+- [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
+- [Colorizer](https://github.com/norcalli/nvim-colorizer.lua)
+- [TsRainbow](https://github.com/p00f/nvim-ts-rainbow)
+- [ToDoComment](https://github.com/folke/todo-comments.nvim)
 - ...
 
 ### ZSH plugins
