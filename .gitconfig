@@ -1,0 +1,5 @@
+[user]
+        name = hiql
+        email = qiu_lin@163.com
+[core]
+        excludesfile = ~/.gitignore_global
