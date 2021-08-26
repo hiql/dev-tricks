@@ -1,6 +1,8 @@
 # Dev Tricks
 Some stuff from my daily development(such as dotfiles,scripts,snippets, articles...:)
 
+<img src="dev_logo.png" alt="dev_logo" width="320" />
+
 ## My Development Environment
 
 I have been using VS Code for a few years, 
