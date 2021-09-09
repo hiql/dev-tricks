@@ -56,6 +56,7 @@ require('packer').startup(function(use)
   -- use 'kyazdani42/nvim-tree.lua'
   use 'David-Kunz/treesitter-unit'
   use 'tamago324/lir.nvim'
+  use 'tamago324/lir-git-status.nvim'
   use 'lukas-reineke/indent-blankline.nvim'
   use 'cespare/vim-toml'
   use 'editorconfig/editorconfig-vim'
@@ -90,6 +91,12 @@ opt.cursorline = false
 g.netrw_banner = false
 g.netrw_liststyle = 3
 g.markdown_fenced_languages = { 'javascript', 'js=javascript', 'json=javascript' }
+
+-- disable netrw
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+g.loaded_netrwSettings = 1
+g.loaded_netrwFileHandlers = 1
 
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
@@ -305,6 +312,7 @@ _G.telescope_files_or_git_files = function()
  map('n', '<leader>fs', ':Telescope lsp_document_symbols<CR>')
  map('n', '<leader>ff', ':Telescope live_grep<CR>')
  map('n', '<leader>FF', ':Telescope grep_string<CR>')
+ map('n', '<leader>td', ':TodoTelescope<CR>')
 
 -- neovim/nvim-lspconfig
 local nvim_lsp = require'lspconfig'
@@ -335,16 +343,16 @@ nvim_lsp.rust_analyzer.setup({
 })
 
 map('n', 'gd', ':lua vim.lsp.buf.definition()<CR>')
+map('n', 'gD', ':lua vim.lsp.buf.implementation()<CR>')
 map('n', 'gh', ':lua vim.lsp.buf.hover()<CR>')
+map('n', 'gk', ':lua vim.lsp.buf.signature_help()<CR>')
 map('n', 'ga', ':Telescope lsp_code_actions<CR>')
 map('n', 'gA', ':Telescope lsp_range_code_actions<CR>')
-map('n', 'gD', ':lua vim.lsp.buf.implementation()<CR>')
-map('n', '<leader><C-k>', ':lua vim.lsp.buf.signature_help()<CR>')
 map('n', 'gr', ':lua vim.lsp.buf.references()<CR>')
 map('n', 'gR', ':lua vim.lsp.buf.rename()<CR>')
 map('n', 'gf', ':lua vim.lsp.buf.formatting()<CR>')
-
-map('n', '<leader><esc><esc>', ':tabclose<CR>')
+map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
+map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
 
 -- nvim/treesitter
 require'nvim-treesitter.configs'.setup {
@@ -547,6 +555,10 @@ require'lir'.setup {
   },
 }
 
+require'lir.git_status'.setup({
+  show_ignored = true
+})
+
 -- custom folder icon
 require'nvim-web-devicons'.setup({
   override = {
@@ -583,7 +595,7 @@ local check_back_space = function()
 end
 
 local cmp = require('cmp')
-  cmp.setup { 
+  cmp.setup {
     snippet = {
       expand = function(args)
         vim.fn["vsnip#anonymous"](args.body)
@@ -634,7 +646,6 @@ local cmp = require('cmp')
     },
   }
 
-
 -- windwp/nvim-autopairs
 require('nvim-autopairs').setup({
   disable_filetype = { 'TelescopePrompt' , 'vim' },
@@ -646,6 +657,8 @@ require("nvim-autopairs.completion.cmp").setup({
   auto_select = true -- automatically select the first item
 })
 
+map('n', '<leader><esc><esc>', ':tabclose<CR>')
+
 -- map('n', '<s-l>', ':bnext<CR>')
 -- map('n', '<s-h>', ':bprev<CR>')
 
@@ -655,6 +668,8 @@ map('n', 'Y', "y$")
 
 -- local plugins
 map('n', '<leader>lc', ':lua require("ls-crates").insert_latest_version()<CR>')
+map('n', '<leader>ld', ':edit %:p:h<CR>')
+map('n', '<leader>lD', ':edit .<CR>')
 
 -- global mark I for last edit
 vim.cmd [[autocmd InsertLeave * execute 'normal! mI']]
