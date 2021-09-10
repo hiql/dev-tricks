@@ -278,7 +278,7 @@ if has('nvim')
 endif]])
 
 -- sbdchd/neoformat
--- map('n', '<leader>F', ':Neoformat prettier<CR>')
+map('n', '<leader>F', ':Neoformat prettier<CR>')
 
 -- nvim-telescope/telescope.nvim
 _G.telescope_find_files_in_path = function(path)
@@ -506,6 +506,17 @@ local actions = require'lir.actions'
 local mark_actions = require 'lir.mark.actions'
 local clipboard_actions = require'lir.clipboard.actions'
 
+-- custom folder icon
+require'nvim-web-devicons'.setup({
+  override = {
+    lir_folder_icon = {
+      icon = "",
+      color = "#7ebae4",
+      name = "LirFolderNode"
+    },
+  }
+})
+
 require'lir'.setup {
   show_hidden_files = false,
   devicons_enable = true,
@@ -559,16 +570,6 @@ require'lir.git_status'.setup({
   show_ignored = true
 })
 
--- custom folder icon
-require'nvim-web-devicons'.setup({
-  override = {
-    lir_folder_icon = {
-      icon = "",
-      color = "#7ebae4",
-      name = "LirFolderNode"
-    },
-  }
-})
 -- use visual mode
 function _G.LirSettings()
   vim.api.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
