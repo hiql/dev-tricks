@@ -63,6 +63,7 @@ require('packer').startup(function(use)
   use 'editorconfig/editorconfig-vim'
   use 'alvan/vim-closetag'
   use 'mbbill/undotree'
+  use 'David-Kunz/cmp-npm'
 end)
 
 -- default options
@@ -488,6 +489,9 @@ map('n', '<leader>z', ':ZenMode<CR>')
 map('x', 'u', ':<c-u>lua require"treesitter-unit".select(true)<CR>')
 map('o', 'u', ':<c-u>lua require"treesitter-unit".select(true)<CR>')
 
+-- David-Kunz/cmp-npm
+require('cmp-npm').setup({})
+
 -- hrsh7th/nvim-cmp
 vim.g.vsnip_snippet_dir = os.getenv("HOME") .. "/.config/nvim/snippets"
 vim.g.vsnip_extra_mapping = true
@@ -549,6 +553,7 @@ cmp.setup {
     { name = 'buffer' },
     { name = 'vsnip' },
     { name = 'path' },
+    { name = 'npm' },
   },
   sorting = {
     priority_weight = 10
