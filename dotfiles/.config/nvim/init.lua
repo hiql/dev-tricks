@@ -17,11 +17,11 @@ end
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
-	use 'szw/vim-maximizer'
-	use 'kassio/neoterm'
-	use 'tpope/vim-commentary'
-	use 'sbdchd/neoformat'
-	use 'neovim/nvim-lspconfig'
+  use 'szw/vim-maximizer'
+  use 'kassio/neoterm'
+  use 'tpope/vim-commentary'
+  use 'sbdchd/neoformat'
+  use 'neovim/nvim-lspconfig'
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
@@ -41,7 +41,8 @@ require('packer').startup(function(use)
   use 'mfussenegger/nvim-dap'
   use 'nvim-telescope/telescope-dap.nvim'
   use 'theHamsta/nvim-dap-virtual-text'
-  use 'folke/tokyonight.nvim'
+  -- use 'folke/tokyonight.nvim'
+  use 'shaunsingh/nord.nvim'
   use 'nvim-lualine/lualine.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'ryanoasis/vim-devicons'
@@ -64,6 +65,8 @@ require('packer').startup(function(use)
   use 'alvan/vim-closetag'
   use 'mbbill/undotree'
   use 'David-Kunz/cmp-npm'
+  use 'simrat39/rust-tools.nvim'
+  -- use 'Saecki/crates.nvim'
 end)
 
 -- default options
@@ -102,14 +105,23 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
--- folke/tokyonight.nvim
-g.tokyonight_style = 'storm'
-g.tokyonight_transparent = true
-g.tokyonight_transparent_sidebar = true
-g.tokyonight_hide_inactive_statusline = false
-g.tokyonight_lualine_bold = true
-g.tokyonight_colors = { border = '#2f344c' }
-cmd('colorscheme tokyonight')
+-- -- folke/tokyonight.nvim
+-- g.tokyonight_style = 'storm'
+-- g.tokyonight_transparent = true
+-- g.tokyonight_transparent_sidebar = true
+-- g.tokyonight_hide_inactive_statusline = false
+-- g.tokyonight_lualine_bold = true
+-- g.tokyonight_colors = { border = '#2f344c' }
+-- cmd('colorscheme tokyonight')
+
+-- shaunsingh/nord.nvim
+vim.g.nord_contrast = false
+vim.g.nord_borders = true 
+vim.g.nord_disable_background = true
+vim.g.nord_cursorline_transparent = false
+vim.g.nord_enable_sidebar_background = false
+vim.g.nord_italic = false
+cmd('colorscheme nord')
 
 -- kyazdani42/nvim-tree.lua
 require('nvim-tree').setup({
@@ -158,7 +170,7 @@ local hide_statusline_on_nvimtree = {
 
 require('lualine').setup({
   options = {
-    theme = 'tokyonight',
+    theme = 'nord',
     icons_enabled = true,
     upper = false,
     -- section_separators = {'', ''},
@@ -172,7 +184,6 @@ require('lualine').setup({
     {
       'diff',
       colored = false,
-      -- symbols = {added = ' ', modified = '柳 ', removed = ' '},
     },
     {
       'diagnostics',
@@ -189,8 +200,7 @@ require('lualine').setup({
       {
         -- Lsp server name
         function()
-          local msg = ''
-          -- local msg = 'No Active Lsp'
+          local msg = 'No Active Lsp'
           local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
           local clients = vim.lsp.get_active_clients()
           if next(clients) == nil then return msg end
@@ -202,7 +212,7 @@ require('lualine').setup({
           end
           return msg
         end,
-        icon = '',
+        icon = 'LSP:',
       },
     },
     lualine_y = {'progress'},
@@ -282,11 +292,16 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 })
 
 nvim_lsp.tsserver.setup{ capabilities = capabilities }
+
 nvim_lsp.pyright.setup{ capabilities = capabilities }
-nvim_lsp.java_language_server.setup{
-  capabilities = capabilities,
-  cmd = {os.getenv('HOME') .. '/apps/java-language-server/dist/lang_server_mac.sh'}
-}
+
+-- nvim_lsp.java_language_server.setup{
+--   capabilities = capabilities,
+--   cmd = {os.getenv('HOME') .. '/apps/java-language-server/dist/lang_server_mac.sh'}
+-- }
+
+nvim_lsp.jdtls.setup{}
+
 nvim_lsp.rust_analyzer.setup({
     settings = {
         ['rust-analyzer'] = {
@@ -299,7 +314,7 @@ nvim_lsp.rust_analyzer.setup({
             },
             procMacro = {
                 enable = true
-            },
+            }
         }
     },
     capabilities = capabilities,
@@ -364,6 +379,9 @@ map('n', 'gf', ':lua vim.lsp.buf.formatting()<CR>')
 map('n', '[d', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
 map('n', ']d', ':lua vim.lsp.diagnostic.goto_next()<CR>')
 
+-- simrat39/rust-tools.nvim
+require('rust-tools').setup({})
+
 -- hrsh7th/vim-vsnip
 vim.cmd([[
 imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
@@ -387,7 +405,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
   indent = {
-  enable = true
+    enable = true
   },
   textobjects = {
     select = {
@@ -419,6 +437,42 @@ dap.adapters.node2 = {
   command = 'node',
   args = {os.getenv('HOME') .. '/apps/vscode-node-debug2/out/src/nodeDebug.js'},
 }
+
+-- Run manually: ./codelldb --port 13000
+dap.adapters.codelldb = {
+  type = 'server',
+  host = '127.0.0.1',
+  port = 13000
+}
+
+dap.configurations.c = {
+  {
+    type = 'codelldb',
+    request = 'launch',
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd()..'/', 'file')
+    end,
+    --program = '${fileDirname}/${fileBasenameNoExtension}',
+    cwd = '${workspaceFolder}',
+    terminal = 'integrated'
+  }
+}
+
+dap.configurations.cpp = dap.configurations.c
+
+dap.configurations.rust = {
+  {
+    type = 'codelldb',
+    request = 'launch',
+    program = function()
+      return vim.fn.input('Path to executable: ', vim.fn.getcwd()..'/', 'file')
+    end,
+    cwd = '${workspaceFolder}',
+    terminal = 'integrated',
+    sourceLanguages = { 'rust' }
+  }
+}
+
 vim.fn.sign_define('DapBreakpoint', {text='🟥', texthl='', linehl='', numhl=''})
 vim.fn.sign_define('DapBreakpointRejected', {text='🟦', texthl='', linehl='', numhl=''})
 vim.fn.sign_define('DapStopped', {text='⭐️', texthl='', linehl='', numhl=''})
@@ -490,7 +544,7 @@ map('x', 'u', ':<c-u>lua require"treesitter-unit".select(true)<CR>')
 map('o', 'u', ':<c-u>lua require"treesitter-unit".select(true)<CR>')
 
 -- David-Kunz/cmp-npm
-require('cmp-npm').setup({})
+require('cmp-npm').setup({ ignore = {"beta", "rc"} })
 
 -- hrsh7th/nvim-cmp
 vim.g.vsnip_snippet_dir = os.getenv("HOME") .. "/.config/nvim/snippets"
@@ -568,11 +622,8 @@ require('nvim-autopairs').setup({
   disable_filetype = { 'TelescopePrompt' , 'vim' },
 })
 
-require("nvim-autopairs.completion.cmp").setup({
-  map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` after select function or method item
-  auto_select = true -- automatically select the first item
-})
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
 
 -- alvan/vim-closetag
 g.closetag_filenames = '*.html,*.xhtml,*.phtml,*.tsx,*.jsx,*.xml'
