@@ -81,6 +81,10 @@ settings.json
 
 ```
 
+#### Enable Google Gmail SMTP service when using it in springboot apps
+1. turn on Allow less secure apps in settings
+2. go to `https://accounts.google.com/DisplayUnlockCaptcha and click continue
+
 ### Rust
 
 #### Install Diesel CLI with PostgreSQL and MySQL drivers support
@@ -147,4 +151,12 @@ history -p
 2. Uninstall
 ```shell
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+```
+
+### Cent OS
+#### Open ports
+```shell
+firewall-cmd --zone=public --add-port=9200/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --query-port=9200/tcp
 ```
